@@ -125,7 +125,7 @@ jobs:
 
       - name: Setup Android SDK
         if: matrix.platform == 'android'
-        uses: android-actions/setup-android@v3
+        uses: android-actions/setup-android@v4
 
       - name: Install macOS Dependencies
         if: matrix.platform == 'macos'

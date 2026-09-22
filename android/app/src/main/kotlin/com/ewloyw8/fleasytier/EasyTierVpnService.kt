@@ -224,7 +224,7 @@ class EasyTierVpnService : VpnService() {
             while (!Thread.currentThread().isInterrupted &&
                 currentSpec?.configId == spec.configId
             ) {
-                val infosJson = EasyTierJNI.collectNetworkInfos()
+                val infosJson = EasyTierJNI.collectNetworkInfos(100)
                 lastInfoJson = infosJson
 
                 val snapshot = parseRuntimeSnapshot(infosJson, spec.instanceName)
@@ -282,6 +282,7 @@ class EasyTierVpnService : VpnService() {
         } finally {
             closeVpnInterface()
             try {
+                EasyTierJNI.ensureLoaded()
                 EasyTierJNI.stopAllInstances()
                 appendServiceLog("All managed instances stopped")
             } catch (_: Throwable) {
@@ -374,6 +375,7 @@ class EasyTierVpnService : VpnService() {
             networkRunning = false
             closeVpnInterface()
             try {
+                EasyTierJNI.ensureLoaded()
                 EasyTierJNI.stopAllInstances()
             } catch (_: Throwable) {
             }
